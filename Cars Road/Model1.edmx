@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Cars_RoadModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Города">
+          <Key>
+            <PropertyRef Name="ИдентификаторГорода" />
+          </Key>
+          <Property Name="ИдентификаторГорода" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="varchar" MaxLength="255" />
+          <Property Name="ЧисленностьНаселения" Type="int" />
+        </EntityType>
+        <EntityType Name="Дороги">
+          <Key>
+            <PropertyRef Name="НомерДороги" />
+          </Key>
+          <Property Name="НомерДороги" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Протяженность" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="ЕдиницаИзмерения" Type="varchar" MaxLength="10" />
+          <Property Name="Категория" Type="varchar" MaxLength="255" />
+          <Property Name="ВидПокрытия" Type="varchar" MaxLength="255" />
+          <Property Name="ОграничениеСкорости" Type="int" />
+          <Property Name="СоединенныйГородИдентификатор" Type="int" />
+          <Property Name="НаличиеАвторемонтныхПунктов" Type="varchar" MaxLength="10" />
+          <Property Name="НаличиеАвтозаправочныхСтанций" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="СервисныеПункты">
+          <Key>
+            <PropertyRef Name="ИдентификаторСервисногоПункта" />
+          </Key>
+          <Property Name="ИдентификаторСервисногоПункта" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="varchar" MaxLength="255" />
+          <Property Name="Тип" Type="varchar" MaxLength="255" />
+          <Property Name="Дорога" Type="int" />
+        </EntityType>
+        <Association Name="FK__Дороги__Соединен__4F7CD00D">
+          <End Role="Города" Type="Self.Города" Multiplicity="0..1" />
+          <End Role="Дороги" Type="Self.Дороги" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Города">
+              <PropertyRef Name="ИдентификаторГорода" />
+            </Principal>
+            <Dependent Role="Дороги">
+              <PropertyRef Name="СоединенныйГородИдентификатор" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Сервисные__Дорог__5441852A">
+          <End Role="Дороги" Type="Self.Дороги" Multiplicity="0..1" />
+          <End Role="СервисныеПункты" Type="Self.СервисныеПункты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Дороги">
+              <PropertyRef Name="НомерДороги" />
+            </Principal>
+            <Dependent Role="СервисныеПункты">
+              <PropertyRef Name="Дорога" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Cars_RoadModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Города" EntityType="Self.Города" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Дороги" EntityType="Self.Дороги" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="СервисныеПункты" EntityType="Self.СервисныеПункты" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Дороги__Соединен__4F7CD00D" Association="Self.FK__Дороги__Соединен__4F7CD00D">
+            <End Role="Города" EntitySet="Города" />
+            <End Role="Дороги" EntitySet="Дороги" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Сервисные__Дорог__5441852A" Association="Self.FK__Сервисные__Дорог__5441852A">
+            <End Role="Дороги" EntitySet="Дороги" />
+            <End Role="СервисныеПункты" EntitySet="СервисныеПункты" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Cars_RoadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Города">
+          <Key>
+            <PropertyRef Name="ИдентификаторГорода" />
+          </Key>
+          <Property Name="ИдентификаторГорода" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ЧисленностьНаселения" Type="Int32" />
+          <NavigationProperty Name="Дороги" Relationship="Self.FK__Дороги__Соединен__4F7CD00D" FromRole="Города" ToRole="Дороги" />
+        </EntityType>
+        <EntityType Name="Дороги">
+          <Key>
+            <PropertyRef Name="НомерДороги" />
+          </Key>
+          <Property Name="НомерДороги" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Протяженность" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="ЕдиницаИзмерения" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Категория" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ВидПокрытия" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ОграничениеСкорости" Type="Int32" />
+          <Property Name="СоединенныйГородИдентификатор" Type="Int32" />
+          <Property Name="НаличиеАвторемонтныхПунктов" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="НаличиеАвтозаправочныхСтанций" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Города" Relationship="Self.FK__Дороги__Соединен__4F7CD00D" FromRole="Дороги" ToRole="Города" />
+          <NavigationProperty Name="СервисныеПункты" Relationship="Self.FK__Сервисные__Дорог__5441852A" FromRole="Дороги" ToRole="СервисныеПункты" />
+        </EntityType>
+        <EntityType Name="СервисныеПункты">
+          <Key>
+            <PropertyRef Name="ИдентификаторСервисногоПункта" />
+          </Key>
+          <Property Name="ИдентификаторСервисногоПункта" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Тип" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Дорога" Type="Int32" />
+          <NavigationProperty Name="Дороги" Relationship="Self.FK__Сервисные__Дорог__5441852A" FromRole="СервисныеПункты" ToRole="Дороги" />
+        </EntityType>
+        <Association Name="FK__Дороги__Соединен__4F7CD00D">
+          <End Role="Города" Type="Self.Города" Multiplicity="0..1" />
+          <End Role="Дороги" Type="Self.Дороги" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Города">
+              <PropertyRef Name="ИдентификаторГорода" />
+            </Principal>
+            <Dependent Role="Дороги">
+              <PropertyRef Name="СоединенныйГородИдентификатор" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Сервисные__Дорог__5441852A">
+          <End Role="Дороги" Type="Self.Дороги" Multiplicity="0..1" />
+          <End Role="СервисныеПункты" Type="Self.СервисныеПункты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Дороги">
+              <PropertyRef Name="НомерДороги" />
+            </Principal>
+            <Dependent Role="СервисныеПункты">
+              <PropertyRef Name="Дорога" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Cars_RoadEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Города" EntityType="Self.Города" />
+          <EntitySet Name="Дороги" EntityType="Self.Дороги" />
+          <EntitySet Name="СервисныеПункты" EntityType="Self.СервисныеПункты" />
+          <AssociationSet Name="FK__Дороги__Соединен__4F7CD00D" Association="Self.FK__Дороги__Соединен__4F7CD00D">
+            <End Role="Города" EntitySet="Города" />
+            <End Role="Дороги" EntitySet="Дороги" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Сервисные__Дорог__5441852A" Association="Self.FK__Сервисные__Дорог__5441852A">
+            <End Role="Дороги" EntitySet="Дороги" />
+            <End Role="СервисныеПункты" EntitySet="СервисныеПункты" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Cars_RoadModelContainer" CdmEntityContainer="Cars_RoadEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Cars_RoadModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Города">
+            <EntityTypeMapping TypeName="Cars_RoadModel.Города">
+              <MappingFragment StoreEntitySet="Города">
+                <ScalarProperty Name="ИдентификаторГорода" ColumnName="ИдентификаторГорода" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ЧисленностьНаселения" ColumnName="ЧисленностьНаселения" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Дороги">
+            <EntityTypeMapping TypeName="Cars_RoadModel.Дороги">
+              <MappingFragment StoreEntitySet="Дороги">
+                <ScalarProperty Name="НомерДороги" ColumnName="НомерДороги" />
+                <ScalarProperty Name="Протяженность" ColumnName="Протяженность" />
+                <ScalarProperty Name="ЕдиницаИзмерения" ColumnName="ЕдиницаИзмерения" />
+                <ScalarProperty Name="Категория" ColumnName="Категория" />
+                <ScalarProperty Name="ВидПокрытия" ColumnName="ВидПокрытия" />
+                <ScalarProperty Name="ОграничениеСкорости" ColumnName="ОграничениеСкорости" />
+                <ScalarProperty Name="СоединенныйГородИдентификатор" ColumnName="СоединенныйГородИдентификатор" />
+                <ScalarProperty Name="НаличиеАвторемонтныхПунктов" ColumnName="НаличиеАвторемонтныхПунктов" />
+                <ScalarProperty Name="НаличиеАвтозаправочныхСтанций" ColumnName="НаличиеАвтозаправочныхСтанций" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="СервисныеПункты">
+            <EntityTypeMapping TypeName="Cars_RoadModel.СервисныеПункты">
+              <MappingFragment StoreEntitySet="СервисныеПункты">
+                <ScalarProperty Name="ИдентификаторСервисногоПункта" ColumnName="ИдентификаторСервисногоПункта" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Тип" ColumnName="Тип" />
+                <ScalarProperty Name="Дорога" ColumnName="Дорога" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
